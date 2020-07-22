@@ -1,30 +1,30 @@
-from IPget import get_ip
-from UDPget import get
-from UDPsend import send
+from haiku import IPget
+from haiku import UDPget
+from haiku import UDPsend
 import time
 async def discover():
-    thisip = await get_ip()
+    thisip = await IPget.get_ip()
     if thisip is False:
         return False
     iplist = thisip.split(".")
     iplist.pop()
     iplist.append("255")
     broadip = ".".join(iplist)
-    await send(True, broadip, thisip, 31415, 31415, "<ALL;DEVICE;ID;GET>")
+    await UDPsend.send(True, broadip, thisip, 31415, 31415, "<ALL;DEVICE;ID;GET>")
     timeend = time.time() + 5
     devicelist = []
     lightlist = []
     fanlist = []
     while time.time() < timeend:
-        result = await get(0.01, thisip, 31415)
+        result = await UDPget.get(0.01, thisip, 31415)
         if result is not False and result not in devicelist:
             devicelist.append(result)
     for getinfo in range (len(devicelist)):
         jumfanip = (devicelist[getinfo])[1]
         jumfanip = str(jumfanip).split("\'")
         fanip = jumfanip[1]
-        await send(False, fanip, thisip, 31415, 31415, "<ALL;DEVICE;LIGHT;GET>")
-        result = await get(5, thisip, 31415)
+        await UDPsend.send(False, fanip, thisip, 31415, 31415, "<ALL;DEVICE;LIGHT;GET>")
+        result = await UDPget.get(5, thisip, 31415)
         light = None
         if result is not False:
             light = str(result).split(",")

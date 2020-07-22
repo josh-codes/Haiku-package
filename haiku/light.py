@@ -1,11 +1,11 @@
-from IPget import get_ip
-from UDPget import get
-from UDPsend import send
+from haiku import IPget
+from haiku import UDPget
+from haiku import UDPsend
 async def getbright(fanip):
     result = False
-    thisip = await get_ip()
-    await send(False, fanip, thisip, 31415, 31415, "<ALL;LIGHT;LEVEL;GET;ACTUAL>")
-    result = await get(5, thisip, 31415)
+    thisip = await IPget.get_ip()
+    await UDPsend.send(False, fanip, thisip, 31415, 31415, "<ALL;LIGHT;LEVEL;GET;ACTUAL>")
+    result = await UDPget.get(5, thisip, 31415)
     if result is False:
         return
     bright = (result[0].split(";"))[4]
@@ -16,10 +16,10 @@ async def setbright(fanip, bright):
     if rbright == 0:
         rbright = 1
     result = False
-    thisip = await get_ip()
+    thisip = await IPget.get_ip()
     data = "<ALL;LIGHT;LEVEL;SET;"+str(rbright)+">"
-    await send(False, fanip, thisip, 31415, 31415, data)
-    result = await get(5, thisip, 31415)
+    await UDPsend.send(False, fanip, thisip, 31415, 31415, data)
+    result = await UDPget.get(5, thisip, 31415)
     if result is False:
         return
     ebright = (result[0].split(";"))[4]
@@ -27,14 +27,14 @@ async def setbright(fanip, bright):
     return ebright*6.25
 async def setstate(fanip, state):
     result = False
-    thisip = await get_ip()
+    thisip = await IPget.get_ip()
     if state is True:
         nstate = 'ON'
     else:
         nstate = 'OFF'
     data = "<ALL;LIGHT;PWR;"+nstate+">"
-    await send(False, fanip, thisip, 31415, 31415, data)
-    result = await get(5, thisip, 31415)
+    await UDPsend.send(False, fanip, thisip, 31415, 31415, data)
+    result = await UDPget.get(5, thisip, 31415)
     if result is False:
         return
     state = ((result[0]).split(";"))[3]
