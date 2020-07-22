@@ -4,7 +4,7 @@ with open("README.md", "r") as fh:
     long_description = fh.read()
 
 setuptools.setup(
-    name="Josh-codes", # Replace with your own username
+    name="haiku-Josh-codes", # Replace with your own username
     version="0.1",
     author="Josh",
     author_email="joshua.brest99@gmail.com",
