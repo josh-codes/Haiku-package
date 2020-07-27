@@ -10,7 +10,7 @@ async def getbright(fanip):
         return
     bright = (result[0].split(";"))[4]
     bright = (bright.split(")"))[0]
-    return bright*6.25
+    return round(int(bright)*6.25)
 async def setbright(fanip, bright):
     rbright = round(bright/6.25)
     if rbright == 0:
@@ -24,7 +24,7 @@ async def setbright(fanip, bright):
         return
     ebright = (result[0].split(";"))[4]
     ebright = (bright.split(")"))[0]
-    return ebright*6.25
+    return round(int(ebright)*6.25)
 async def setstate(fanip, state):
     result = False
     thisip = await IPget.get_ip()
