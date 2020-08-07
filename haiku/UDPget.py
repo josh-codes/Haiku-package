@@ -1,5 +1,6 @@
 import socket
-async def get(timeout, bindip, revport):
+import concurrent.futures
+async def get_send(timeout, bindip, revport):
 	"""Get UDP packets"""
 	# Create socket
 	try:
@@ -19,5 +20,9 @@ async def get(timeout, bindip, revport):
 		return False
 	dedata = data.decode("utf-8")
 	return [dedata, address]
-	
-	
+
+async def get(timeout, bindip, revport):
+	with concurrent.futures.ThreadPoolExecutor() as executor:
+	    future = executor.submit(await get_send, timeout, bindip, revport)
+	    result = future.result()
+	    return result
