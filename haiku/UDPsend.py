@@ -1,5 +1,6 @@
 import socket
-async def send(broadcast, destip, bindip, eport, lport, data):
+import concurrent.futures
+async def send_send(broadcast, destip, bindip, eport, lport, data):
 	"""Send UDP packets"""
 	# Create socket
 	try:
@@ -20,3 +21,9 @@ async def send(broadcast, destip, bindip, eport, lport, data):
 	# Close socket
 	s.close()
 	return True
+
+async def send(broadcast, destip, bindip, eport, lport, data):
+	with concurrent.futures.ThreadPoolExecutor() as executor:
+	    future = executor.submit(await send_send, (broadcast, destip, bindip, eport, lport, data))
+	    return_value = future.result()
+	    print(return_value)
