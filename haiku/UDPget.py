@@ -23,6 +23,6 @@ async def get_send(timeout, bindip, revport):
 
 async def get(timeout, bindip, revport):
 	with concurrent.futures.ThreadPoolExecutor() as executor:
-	    future = executor.submit(await get_send, timeout, bindip, revport)
+	    future = executor.submit(await get_send, (timeout, bindip, revport))
 	    result = future.result()
 	    return result
