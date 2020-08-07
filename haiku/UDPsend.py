@@ -1,10 +1,10 @@
-import socket
+import socket, asyncoro
 import concurrent.futures
 async def send_send(broadcast, destip, bindip, eport, lport, data):
 	"""Send UDP packets"""
 	# Create socket
 	try:
-		s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM, 0)
+		s = asyncoro.AsynCoroSocket(socket.socket(socket.AF_INET, socket.SOCK_DGRAM, 0))
 	except:
 		return False
 	if broadcast:
