@@ -1,25 +1,32 @@
-import socket, asyncoro
+import asyncio
 import concurrent.futures
+mssg=""
+ip = ""
+class udpProto:
+    def connection_made(self, transport):
+        self.transport = transport
+
+    def datagram_received(self, data, addr):
+        msg = data.decode()
+        ip = addr
+        transport.close()
+
+
 async def get_send(timeout, bindip, revport):
-	"""Get UDP packets"""
-	# Create socket
-	try:
-		s = asyncoro.AsynCoroSocket(socket.socket(socket.AF_INET, socket.SOCK_DGRAM, 0))
-	except:
-		return False
-	# Set timeout
-	s.settimeout(timeout)
-	# Define variables
-	econfig = (bindip, revport)
-	# Bind receiving port
-	s.bind(econfig) 
-	# Try to get data
-	try:
-		data, address = s.recvfrom(4096)
-	except:
-		return False
-	dedata = data.decode("utf-8")
-	return [dedata, address]
+    loop = asyncio.get_running_loop()
+    transport, protocol = await loop.create_datagram_endpoint(
+        lambda: udpProto(),
+        local_addr = (bindip, revport))
+
+    try:
+        await asyncio.sleep(timeout)
+    finally:
+    	if addr == "": 
+        	transport.close()
+        	ret = False
+        else:
+        	paddr = ("\'"+addr+"\'", bindip)
+        return [data,paddr]
 
 async def get(timeout, bindip, revport):
 	with concurrent.futures.ThreadPoolExecutor() as executor:
