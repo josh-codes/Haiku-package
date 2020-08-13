@@ -1,6 +1,5 @@
 import asyncio
-import concurrent.futures
-mssg=""
+msg=""
 ip = ""
 class udpProto:
     def connection_made(self, transport):
@@ -12,7 +11,7 @@ class udpProto:
         transport.close()
 
 
-async def get_send(timeout, bindip, revport):
+async def get(timeout, bindip, revport):
     loop = asyncio.get_running_loop()
     transport, protocol = await loop.create_datagram_endpoint(
         lambda: udpProto(),
@@ -24,12 +23,4 @@ async def get_send(timeout, bindip, revport):
     	if addr == "": 
         	transport.close()
         	ret = False
-        else:
-        	paddr = ("\'"+addr+"\'", bindip)
-        return [data,paddr]
-
-async def get(timeout, bindip, revport):
-	with concurrent.futures.ThreadPoolExecutor() as executor:
-	    future = executor.submit(await get_send, (timeout, bindip, revport))
-	    result = future.result()
-	    return result
+        return [msg,ip]
