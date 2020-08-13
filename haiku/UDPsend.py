@@ -5,6 +5,7 @@ class udpProto:
 		self.addr = addr
 		self.on_done = on_done
 		self.transport = None
+
 	def connection_made(self, transport):
 		self.transport = transport
 		senddata = (self.sdata).encode('utf8')
@@ -15,6 +16,7 @@ class udpProto:
 	def datagram_received(self, data, addr):
 		# I have to do something here
 		something = True
+
 	def connection_lost(self, stuff):
 		# I have to do something here
 		something = True
