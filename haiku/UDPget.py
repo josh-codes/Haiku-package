@@ -13,7 +13,7 @@ class udpProto:
 		self.transport = transport
 
 	def datagram_received(self, data, addr):
-		transport.close()
+		self.transport.close()
 		self.msg.set_result(data.decode())
 		self.ip.set_result(addr)
 		self.on_done.set_result(True)
