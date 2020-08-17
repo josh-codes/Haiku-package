@@ -29,7 +29,8 @@ async def send(broadcast, destip, bindip, eport, lport, data):
 	transport, protocol = await loop.create_datagram_endpoint(
 		lambda: udpProto(sdata, addr, on_done),
 		local_addr=(bindip, lport),
-		allow_broadcast=True)
+		allow_broadcast=True,
+		reuse_port = True)
 
 	try:
 		await on_done

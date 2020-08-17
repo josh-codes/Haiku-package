@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="haiku-Josh-codes", # Replace with your own username
-    version="0.5.1",
+    version="0.6",
     author="Josh",
     author_email="joshua.brest99@gmail.com",
     description="Control your Haiku(TM) devices!",
