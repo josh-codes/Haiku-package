@@ -15,8 +15,11 @@ async def discover():
     devicelist = []
     lightlist = []
     fanlist = []
+    reuse = False
     while time.time() < timeend:
         result = await UDPget.get(0.01, thisip, 31415)
+        if reuse is False:
+        	reuse = True
         if result is not False and result not in devicelist:
             devicelist.append(result)
     for getinfo in range (len(devicelist)):

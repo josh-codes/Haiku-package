@@ -30,7 +30,8 @@ async def get(timeout, bindip, revport):
 	time = timeout/10
 	transport, protocol = await loop.create_datagram_endpoint(
 		lambda: udpProto(on_done, msg, ip),
-		local_addr = (bindip, revport))
+		local_addr = (bindip, revport),
+		reuse_port = True)
 
 	try:
 		for i in range(10):
